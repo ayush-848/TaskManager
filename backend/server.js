@@ -1,6 +1,7 @@
 const express= require('express');
 const app=express();
-const bodyParser=require('body-parser');
+const bodyParser=require('body-parser'); // for getting the data from body
+const cors=require('cors');
 const authRouter=require('./src/routes/authRouter');
 const idRouter=require('./src/routes/idRouter')
 
@@ -10,7 +11,11 @@ require('./src/config/connectDB')
 
 const PORT=process.env.PORT || 5000;
 
-
+app.UseCors(x => x
+  .AllowAnyMethod()
+  .AllowAnyHeader()
+  .SetIsOriginAllowed(origin => true) // allow any origin
+  .AllowCredentials());
 
 app.get('/ping', (req, res) => {
   res.send('PONG');
