@@ -14,7 +14,6 @@ const Signup = () => {
 
      const handleChange=(e)=>{
       const {name,value}=e.target;
-      console.log(name,value)
       const copySignupInfo={...signupInfo}
       copySignupInfo[name]=value;
       setSignupInfo(copySignupInfo)
