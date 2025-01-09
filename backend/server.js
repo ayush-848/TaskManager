@@ -17,6 +17,8 @@ const corsOptions = {
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
 };
+app.options('*', cors(corsOptions)); // Enable preflight for all routes
+
 
 app.use(cors(corsOptions));
 
