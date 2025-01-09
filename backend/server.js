@@ -5,7 +5,6 @@ const authRouter = require('./routes/authRouter');
 const idRouter = require('./routes/idRouter');
 require('dotenv').config();
 require('./config/connectDB');
-const path=require('path')
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,16 +21,7 @@ app.use(cors(corsOptions))
 app.get('/ping', (req, res) => {
   res.send('PONG');
 });
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
-app.get('*', (req, res) => {
-  console.log(`Serving static file for ${req.url}`);
-  res.sendFile(path.join(__dirname, '../frontend/dist/index.html'), (err) => {
-    if (err) {
-      console.error('Error sending file:', err);
-      res.status(500).send('Server Error');
-    }
-  });
-});
+
 // Middleware to parse incoming requests
 app.use(bodyParser.json());
 
