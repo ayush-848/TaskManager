@@ -11,10 +11,23 @@ require('./src/config/connectDB')
 
 const PORT=process.env.PORT || 5000;
 
-app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', '*');
-  next();
-});
+const allowedOrigins = [
+  'https://task-manager-p2.vercel.app', // Frontend domain
+];
+
+// Use CORS with specific configurations
+app.use(cors({
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed HTTP methods
+  credentials: true, // If you're using cookies for authentication
+}));
 
 app.get('/ping', (req, res) => {
   res.send('PONG');
