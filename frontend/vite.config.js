@@ -1,7 +1,20 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-})
+  server: {
+    proxy: {
+      '/auth': {
+        target: 'https://task-manager-api-rose.vercel.app',
+        changeOrigin: true,
+        secure: false, // Set to true if your backend uses HTTPS
+      },
+      '/id': {
+        target: 'https://task-manager-api-rose.vercel.app',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
+});
