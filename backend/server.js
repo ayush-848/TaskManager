@@ -9,25 +9,13 @@ require('./src/config/connectDB');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// CORS configuration
-const allowedOrigins = [
-  'https://task-manager-p2.vercel.app', // Your production frontend URL
-  'http://localhost:3000' // Localhost URL for development
-];
+const corsOptions ={
+   origin:'*', 
+   credentials:true,            //access-control-allow-credentials:true
+   optionSuccessStatus:200,
+}
 
-// Enable CORS with specific origins
-app.use(cors({
-  origin: function (origin, callback) {
-    // Allow requests without origin (e.g., mobile apps or curl requests)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  credentials: true, // Allow cookies to be sent with requests
-}));
+app.use(cors(corsOptions))
 
 // Test route to check server is working
 app.get('/ping', (req, res) => {
