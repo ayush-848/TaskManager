@@ -1,27 +1,34 @@
-const express= require('express');
-const app=express();
-const bodyParser=require('body-parser'); // for getting the data from body
-const cors=require('cors');
-const authRouter=require('./src/routes/authRouter');
-const idRouter=require('./src/routes/idRouter')
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const bodyParser = require('body-parser');
 
 require('dotenv').config();
-require('./src/config/connectDB')
+require('./src/config/connectDB');
 
+const authRouter = require('./src/routes/authRouter');
+const idRouter = require('./src/routes/idRouter');
 
-const PORT=process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
-app.get('/ping',(req,res)=>{
-  res.send("KEda re");
-})
+// Allow CORS for specific origin
+const corsOptions = {
+  origin: 'https://task-manager-steel-one.vercel.app', // Your frontend domain
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
+
 app.use(bodyParser.json());
-app.use(cors())
-app.use('/auth',authRouter);
-app.use('/id',idRouter);
 
+app.get('/ping', (req, res) => {
+  res.send('KEda re');
+});
 
+app.use('/auth', authRouter);
+app.use('/id', idRouter);
 
-
-app.listen(PORT,()=>{
-  console.log(`Server is at http://localhost:${PORT}/`)
-})
+app.listen(PORT, () => {
+  console.log(`Server is at http://localhost:${PORT}/`);
+});
